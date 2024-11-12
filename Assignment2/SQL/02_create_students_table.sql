@@ -11,9 +11,8 @@ DROP TABLE IF EXISTS students;
 -- Creating students table
 CREATE TABLE students (
     student_id INT PRIMARY KEY,
-    user_id INT,
     program_code VARCHAR(10),
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 SELECT * FROM students;
