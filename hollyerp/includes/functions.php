@@ -42,4 +42,46 @@ function prepareStatements($conn)
 
     // pg_prepare to securly prep for execution
     pg_prepare($conn, 'get_grades', $sql_grades);
+
+    // 3.4 SQL code - select the students information
+    $sql_select_student_info = "SELECT * FROM users 
+                                JOIN students 
+                                USING (user_id) 
+                                WHERE user_id = $1";
+
+    // pg_prepare for the above query
+    pg_prepare($conn, 'student_all_info', $sql_select_student_info);
+
+    // 3.5 SQL code - updates the users last accessed time
+    $sql_last_accessed = "UPDATE users
+                          SET last_access = CURRENT_TIMESTAMP
+                          WHERE user_id = $1";
+
+    // pg_prepare to securly prep for execution
+    pg_prepare($conn, 'student_last_accessed', $sql_last_accessed);
+
+    // 3.6 SQL code - registering user + student
+    $sql_register_user = "INSERT INTO users (first_name, last_name, email, birth_date, password)
+                          VALUES ($1, $2, $3, $4, $5)";
+    
+    $sql_register_student = "INSERT INTO students (student_id, program_code, user_id) 
+                             VALUES ($1, $2, $3)";
+
+    // Prepare statement for the register user and student
+    pg_prepare($conn, 'insert_user', $sql_register_user);
+    pg_prepare($conn, 'insert_student', $sql_register_student);
+
+    // 3.7 SQL code - check to see if an email exists
+    $sql_check_email = "SELECT user_id
+                        FROM users
+                        WHERE email = $1";
+
+    // Prepare statement for the email check
+    pg_prepare($conn, 'check_email_exists', $sql_check_email);
+}
+
+// Function to display message to activity log, and actions users took
+function logActivity($message) {
+    $logfile = __DIR__ . '/../logs/activity.log';
+    file_put_contents($logfile, "[" . date('Y-m-d H:i:s') . "] $message\n", FILE_APPEND);
 }

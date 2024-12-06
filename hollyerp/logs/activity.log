@@ -1,0 +1,40 @@
+[2024-12-05 20:04:05] Failed login attempt: User ID 12312 not found.
+[2024-12-05 20:04:53] Failed login attempt: User ID 1 not found.
+[2024-12-05 20:05:21] Failed login attempt for User 100900001: Invalid password.
+[2024-12-05 20:05:26] Failed login attempt for User 100900001: Invalid password.
+[2024-12-05 20:06:42] Failed login attempt for User 100900001: Invalid password.
+[2024-12-05 23:02:49] Login attempt failed: User  does not exist.
+[2024-12-05 23:04:02] Login attempt failed: User  does not exist.
+[2024-12-05 23:05:13] Failed login attempt: User ID 123 not found.
+[2024-12-05 23:09:11] Failed login attempt for User 100900001: Invalid password.
+[2024-12-05 23:09:15] User 100900001 logged in successfully.
+[2024-12-05 23:09:50] User 100900000 logged in successfully.
+[2024-12-05 23:24:45] User 100900000 logged in successfully.
+[2024-12-06 12:54:57] User 100900000 logged in successfully.
+[2024-12-06 13:11:20] User 100900000 logged in successfully.
+[2024-12-06 13:39:05] User 100900004 logged in successfully.
+[2024-12-06 13:39:21] User 100900005 logged in successfully.
+[2024-12-06 13:46:34] Failed login attempt for User 100900005: Invalid password.
+[2024-12-06 13:46:39] Failed login attempt for User 100900005: Invalid password.
+[2024-12-06 13:46:43] Failed login attempt for User 100900005: Invalid password.
+[2024-12-06 13:46:58] User 100900000 logged in successfully.
+[2024-12-06 13:47:26] Failed login attempt: User ID 1009000010 not found.
+[2024-12-06 13:47:30] Failed login attempt: User ID 1009000010 not found.
+[2024-12-06 13:48:22] Failed login attempt: User ID 1009000010 not found.
+[2024-12-06 13:48:54] User 100900010 logged in successfully.
+[2024-12-06 13:53:43] New user registered: User ID 100900050, Email patrick@dcmail.ca
+[2024-12-06 13:54:20] User 100900050 logged in successfully.
+[2024-12-06 14:02:54] Failed login attempt for User 100900050: Invalid password.
+[2024-12-06 14:03:10] User 100900050 logged in successfully.
+[2024-12-06 14:03:46] User 100900050 logged in successfully.
+[2024-12-06 14:08:39] New user registered: User ID 100900051, Email yeahman@dcmail.ca, Program CPGA
+[2024-12-06 14:08:47] User 100900051 logged in successfully.
+[2024-12-06 14:13:01] New user registered: User ID 100900052, Email as@dcmail.ca, Program CPPG
+[2024-12-06 14:13:18] User 100900052 logged in successfully.
+[2024-12-06 14:23:53] Failed login attempt for User 100900052: Invalid password.
+[2024-12-06 14:26:25] User 100900052 logged in successfully.
+[2024-12-06 15:12:23] User 100900052 logged in successfully.
+[2024-12-06 15:31:44] User 100900052 logged in successfully.
+[2024-12-06 15:36:47] User 100900044 logged in successfully.
+[2024-12-06 15:37:37] New user registered: User ID 100900053, Email 123@dcmail.ca, Program CPGA
+[2024-12-06 15:37:46] User 100900053 logged in successfully.

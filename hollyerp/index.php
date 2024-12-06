@@ -1,48 +1,54 @@
 <?php
-// Variable setup for the header for proper naming of pages
-$title = "Student Grades Home Page";
+$title = "Home Page";
 $file = "index.php";
-$description = "Home page for INFT2100 Assignment 3";
-$date = "November 8, 2024";
-$banner = "Students Grade Portal";
+$description = "Welcome page for the Students Grade Portal";
+$date = "December 6, 2024";
+$banner = "Welcome to the Students Grade Portal";
 
-// Includes on the header.php file
-include("./includes/header.php");
+include('./includes/header.php');
+
+// Check if user is logged in
+// If the user is logged in, display their name and let them go to the grades page and have a logout button
+// If the user is NOT logged in, say hello guest, then give them buttons to login or register
+$is_logged_in = isset($_SESSION['user']);
+$user_name = $is_logged_in ? $_SESSION['user']['first_name'] . ' ' . $_SESSION['user']['last_name'] : "";
 ?>
+
 <?php
+// Check if a session message exists, clears message by unsetting session
+if (isset($_SESSION['message'])) {
+    echo '<div class="alert alert-success text-center">' . $_SESSION['message'] . '</div>';
+    unset($_SESSION['message']);  // Clear the message after displaying it
+}
+?>
 
-// Creating and styling divs, headers, p tags to look aesthetic 
-// Creating the labels and text for the home page
-echo "<div class='container mt-5'>
-        <div class='text-center'>
-        <h1 class='display-4 fw-bold'>Welcome to the Student Grades Portal</h1>
-        <p class='lead text-muted'>Your central hub for viewing and managing student grades.</p>
-        <hr class='my-4'>
-    </div>";
 
-// Student grade search section styling and setup
-echo  "<div class='d-flex justify-content-center mt-5'>
-        <div class='card shadow-sm border-0' style='max-width: 30rem;'>
-            <div class='card-body text-center'>
-                <h5 class='card-title mb-3 fw-semibold'>Search for Student Grades</h5>
-                <p class='card-text text-muted'>Enter a student ID to view their grades.</p>";
-
-            // Creating/setup form to take input to automatically enter in the student_id
-            // to search for desired student's grades
-            echo "<form action='grades.php' method='get'>
-                    <div class='mb-3'>
-                        <label for='student_id' class='form-label'>Student ID:</label>
-                        <input type='text' class='form-control' id='student_id' name='student_id' required>
-                    </div>
-                    <button type='submit' class='btn btn-dark btn-lg mt-3'>Search</button>
-                </form>
+<div class="container mt-5 text-center">
+    <h1>Welcome to the Students Grade Portal</h1>
+    <p class="lead">Your gateway to academic success! Manage your grades, access your profile, and stay connected.</p>
+    <div class="card mx-auto shadow p-4" style="max-width: 600px;">
+        <?php if ($is_logged_in): ?>
+            <h3>Hello, <?php echo htmlspecialchars($user_name); ?>!</h3>
+            <p>You are logged in. Feel free to explore the portal!</p>
+            <div class="d-flex justify-content-around">
+                <a href="grades.php" class="btn btn-primary">View Grades</a>
+                <a href="logout.php" class="btn btn-danger">Log Out</a>
             </div>
-        </div>
+        <?php else: ?>
+            <h3>Welcome, Guest!</h3>
+            <p>Please log in or register to access your account and view your grades.</p>
+            <div class="d-flex justify-content-around">
+                <a href="login.php" class="btn btn-success">Log In</a>
+                <a href="register.php" class="btn btn-secondary">Register</a>
+            </div>
+        <?php endif; ?>
     </div>
-</div>";
-?>
-
-<?php
-// Includes on the footer.php file
-include("./includes/footer.php");
-?>
+</div>
+<div class="text-center mt-5">
+    <h2>About the Portal</h2>
+    <p>
+        This portal is designed to help students manage their academic information with ease.
+        Log in to view your grades, update your profile, and stay on top of your academic journey.
+    </p>
+</div>
+<?php include('./includes/footer.php'); ?>
