@@ -14,7 +14,6 @@ $message = "";
 $first_name = $last_name = $email = $birth_date = $password = $confirm_password = $program_code = "";
 $student_id = null;
 
-// If in post mode, take in all the data when it is entered, trimming it for white spaces
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = trim($_POST['confirm_password']);
     $program_code = isset($_POST['program_code']) ? trim($_POST['program_code']) : "";
 
-    // Validate form inputs, ensuring fields cannot be empty, incorrect email, or password matching
+    // Validate form inputs
     if (empty($first_name) || empty($last_name) || empty($email) || empty($birth_date) || empty($password) || empty($confirm_password) || empty($program_code)) {
         $message = "All fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -38,14 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (pg_num_rows($result) > 0) {
                 $message = "Email is already registered.";
             } else {
-                // Encrypt and salt the password
-                $hashed_password = pg_fetch_result(pg_query_params(
-                    $conn,
-                    "SELECT crypt($1, gen_salt('bf'))",
-                    [$password]
-                ), 0, 0);
+                // Hash the password securely using prepared statement
+                $hash_result = pg_execute($conn, 'hash_password', [$password]);
+                $hashed_password = pg_fetch_result($hash_result, 0, 0);
 
-                // Insert user data into the users table
+                // Insert user data into the `users` table
                 $result = pg_execute($conn, 'insert_user', [
                     $first_name,
                     $last_name,
@@ -54,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $hashed_password
                 ]);
 
-                // If inserting into users works, insert it into students
                 if ($result) {
                     // Get the user_id of the newly inserted user
                     $student_id = pg_fetch_result(pg_query($conn, "SELECT currval('users_id_seq')"), 0, 0);
@@ -62,33 +57,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Insert the user_id and program_code into the `students` table
                     $student_result = pg_execute($conn, 'insert_student', [$student_id, $program_code, $student_id]);
 
-                    // If inserting into students works, display it in the activity log
                     if ($student_result) {
                         logActivity("New user registered: User ID $student_id, Email $email, Program $program_code");
 
                         // Display success message with student ID
                         $message = "Registration successful! Your Student ID is <strong>$student_id</strong>. You can now log in.";
-                        $is_success = true; // Flag for successful registration
-
-                    // If errors occur when registering display the following
+                        // Flag for successful registration
+                        $is_success = true; 
+                    
+                    // If error, display following message
                     } else {
                         $message = "Error registering the student. Please try again.";
                     }
-
-                // If errors occur when registering display the following
+                
+                // If error, display following message
                 } else {
                     $message = "Error registering your account. Please try again.";
                 }
             }
-
-        // If errors occur when registering display the following
+        
+        // If error, display following message
         } catch (Exception $e) {
             $message = "An error occurred: " . $e->getMessage();
         }
     }
 }
 ?>
-
 <div class="container mt-5">
     <h1 class="text-center">Register</h1>
     <?php if ($message): ?>

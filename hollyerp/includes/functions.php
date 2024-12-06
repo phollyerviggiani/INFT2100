@@ -78,6 +78,13 @@ function prepareStatements($conn)
 
     // Prepare statement for the email check
     pg_prepare($conn, 'check_email_exists', $sql_check_email);
+
+    // 3.8  SQL Code - Hashing password
+    $sql_hash_password = "SELECT crypt($1, gen_salt('bf'))";
+
+    // Prepare statement for hashing password
+    pg_prepare($conn, 'hash_password', $sql_hash_password);
+    
 }
 
 // Function to display message to activity log, and actions users took
